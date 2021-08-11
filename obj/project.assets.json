@@ -4569,11 +4569,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Personal\\C#\\C-Sharp-WeatherApplication\\WeatherApplication\\WeatherApplication.csproj",
+      "projectUniqueName": "D:\\Personal\\Watchguard\\WeatherApplication\\Weather-Application-C-Sharp\\WeatherApplication.csproj",
       "projectName": "WeatherApplication",
-      "projectPath": "D:\\Personal\\C#\\C-Sharp-WeatherApplication\\WeatherApplication\\WeatherApplication.csproj",
+      "projectPath": "D:\\Personal\\Watchguard\\WeatherApplication\\Weather-Application-C-Sharp\\WeatherApplication.csproj",
       "packagesPath": "C:\\Users\\Hp\\.nuget\\packages\\",
-      "outputPath": "D:\\Personal\\C#\\C-Sharp-WeatherApplication\\WeatherApplication\\obj\\",
+      "outputPath": "D:\\Personal\\Watchguard\\WeatherApplication\\Weather-Application-C-Sharp\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Hp\\AppData\\Roaming\\NuGet\\NuGet.Config",
