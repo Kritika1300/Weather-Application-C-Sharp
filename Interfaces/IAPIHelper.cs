@@ -1,9 +1,9 @@
-﻿
+﻿using System.Threading.Tasks;
 
 namespace WeatherApplication
 {
     interface IAPIHelper
     {
-        T GetData<T>(string endpoint);
+        Task<T> GetData<T>(string endpoint);
     }
 }

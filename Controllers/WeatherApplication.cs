@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace WeatherApplication
 {
@@ -15,7 +16,7 @@ namespace WeatherApplication
             _userInput = userInput;
         }
 
-        public void Start()
+        public async Task Start()
         {
 
             welcomescreen: _updateUI.WelcomeScreen();
@@ -33,7 +34,7 @@ namespace WeatherApplication
             _updateUI.ClearScreen();
 
             ISuggestionsUtil suggestionsUtil = new SuggestionsUtil();
-            List<Suggestion> suggestions = suggestionsUtil.GetSuggestions(location);
+            List<Suggestion> suggestions = await suggestionsUtil.GetSuggestions(location);
 
             if (!locationValidation.IsValid(suggestions))
             {
@@ -57,7 +58,7 @@ namespace WeatherApplication
             _updateUI.ClearScreen();
 
             IWeatherUtil weatherUtil = new WeatherUtil();
-            Weather weather = weatherUtil.GetWeatherInfo(suggestions[selectedSuggestion].Key);
+            Weather weather = await weatherUtil.GetWeatherInfo(suggestions[selectedSuggestion].Key);
             utilitiesMenu: _updateUI.PrintWeather(weather);
 
             _updateUI.UtilitiesMenu();
@@ -80,7 +81,7 @@ namespace WeatherApplication
                 case "S":
                 case "s":
                     _updateUI.ClearScreen();
-                    Start();
+                    await Start();
                     break;
                 default:
                     _updateUI.ClearScreen();

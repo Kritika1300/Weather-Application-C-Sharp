@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace WeatherApplication
 {
     interface ISuggestionsUtil
     {
-        public List<Suggestion> GetSuggestions(string location);
+        public Task<List<Suggestion>> GetSuggestions(string location);
     }
 }

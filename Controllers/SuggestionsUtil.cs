@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace WeatherApplication
 {
@@ -10,9 +11,9 @@ namespace WeatherApplication
             _apihelper = new APIHelper(new ConsoleLogger());
         }
 
-        public List<Suggestion> GetSuggestions(string location)
+        public async Task<List<Suggestion>> GetSuggestions(string location)
         {
-            List<Suggestion> suggestionsArray = _apihelper.GetData<List<Suggestion>>($"/locations/v1/cities/autocomplete?apikey=Lgv6KAAwYhtu6CrUclX2uSHhenZMfdth&q={location}");
+            List<Suggestion> suggestionsArray = await _apihelper.GetData<List<Suggestion>>($"/locations/v1/cities/autocomplete?apikey=liWvgCeRiWGoGrGaWFROTkoSNoUHeXu4&q={location}");
             
             return suggestionsArray;
         }

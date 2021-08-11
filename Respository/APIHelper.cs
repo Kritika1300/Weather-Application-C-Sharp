@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 
 namespace WeatherApplication
@@ -18,7 +19,7 @@ namespace WeatherApplication
            httpClient = new HttpClient();
            httpClient.BaseAddress = new Uri("http://dataservice.accuweather.com");
         }
-        public T GetData<T>(string endpoint)
+        public async Task<T> GetData<T>(string endpoint)
         {
             T results = default(T);
             httpClient.DefaultRequestHeaders.Accept.Clear();
@@ -26,11 +27,11 @@ namespace WeatherApplication
 
             try
             {
-                HttpResponseMessage response = httpClient.GetAsync(endpoint).Result;
+                HttpResponseMessage response = await httpClient.GetAsync(endpoint);
 
                 if (response.IsSuccessStatusCode)
                 {
-                    string content = response.Content.ReadAsStringAsync().Result;
+                    string content = await response.Content.ReadAsStringAsync();
                     results = JsonConvert.DeserializeObject<T>(content);
                 }
                 else

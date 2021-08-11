@@ -1,15 +1,16 @@
-﻿
+﻿using System.Threading.Tasks;
+
 namespace WeatherApplication
 {
     class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             ConsoleLogger consoleLogger = new ConsoleLogger();
             UpdateUI updateUI = new UpdateUI(consoleLogger);
             UserInput userInput = new UserInput();
             WeatherApplication application = new WeatherApplication(consoleLogger,updateUI,userInput);
-            application.Start();
+            await application.Start();
         }
     }
 }
