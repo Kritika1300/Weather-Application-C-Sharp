@@ -15,11 +15,9 @@ namespace WeatherApplication
             _updateUI = updateUI;
             _userInput = userInput;
         }
-
-        public async Task Start()
+        public async Task<List<Suggestion>> Welcome()
         {
-
-            welcomescreen: _updateUI.WelcomeScreen();
+            _updateUI.WelcomeScreen();
 
             string location = _userInput.GetLocation();
             LocationValidation<string> locationValidation = new LocationValidation<string>();
@@ -28,7 +26,7 @@ namespace WeatherApplication
             {
                 _updateUI.ClearScreen();
                 _logger.LogError("Location cannot be empty and should contain only alphabets.Try again !");
-                goto welcomescreen;
+                return await Welcome();
             }
 
             _updateUI.ClearScreen();
@@ -40,32 +38,46 @@ namespace WeatherApplication
             {
                 _updateUI.ClearScreen();
                 _logger.LogError("No results found for this location. Try another?");
-                goto welcomescreen;
+                return await Welcome();
+
             }
 
-            suggestionsMenu: _updateUI.SuggestionsMenu(suggestions);
+            return suggestions;
+        }
+
+        public int RenderSuggestionsMenu(List<Suggestion> suggestions)
+        {
+            _updateUI.SuggestionsMenu(suggestions);
 
             int selectedSuggestion = _userInput.GetSelectedSuggestion() - 1;
             OptionValidation optionValidation = new OptionValidation();
 
-            if (!optionValidation.IsValid(selectedSuggestion) || !optionValidation.IsValid(selectedSuggestion,suggestions))
+            if (!optionValidation.IsValid(selectedSuggestion) || !optionValidation.IsValid(selectedSuggestion, suggestions))
             {
                 _updateUI.ClearScreen();
                 _logger.LogError("Please make a valid selection");
-                goto suggestionsMenu;
+                return RenderSuggestionsMenu(suggestions);
             }
 
+            return selectedSuggestion;
+        }
+
+        public async Task RenderWeather(Weather weather)
+        {
             _updateUI.ClearScreen();
 
-            IWeatherUtil weatherUtil = new WeatherUtil();
-            Weather weather = await weatherUtil.GetWeatherInfo(suggestions[selectedSuggestion].Key);
-            utilitiesMenu: _updateUI.PrintWeather(weather);
+            _updateUI.PrintWeather(weather);
+            await RenderUtilitiesMenu(weather);
 
+        }
+
+        public async Task RenderUtilitiesMenu(Weather weather)
+        {
             _updateUI.UtilitiesMenu();
 
             string selectedUtility = _userInput.GetSelectedUtility();
-          
-            switch (selectedUtility) 
+
+            switch (selectedUtility)
             {
                 case "Q":
                 case "q":
@@ -86,9 +98,19 @@ namespace WeatherApplication
                 default:
                     _updateUI.ClearScreen();
                     _logger.LogError("Invalid Choice.Please try again");
-                    goto utilitiesMenu;
+                    await RenderWeather(weather);
+                    break;
             }
+        }
+
+        public async Task Start()
+        {
+            List<Suggestion> suggestions = await Welcome();
+            int selectedSuggestion = RenderSuggestionsMenu(suggestions);
+            IWeatherUtil weatherUtil = new WeatherUtil();
+            Weather weather = await weatherUtil.GetWeatherInfo(suggestions[selectedSuggestion].Key);
+            await RenderWeather(weather);
+
         }
     }
 }
-    

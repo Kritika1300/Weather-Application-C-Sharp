@@ -11,7 +11,7 @@ namespace WeatherApplication
             FileLogger fileLogger = new FileLogger();
             UpdateUI updateUI = new UpdateUI(consoleLogger);
             UserInput userInput = new UserInput();
-            WeatherApplication application = new WeatherApplication(fileLogger,updateUI,userInput);
+            WeatherApplication application = new WeatherApplication(consoleLogger,updateUI,userInput);
             await application.Start();
         }
     }
